@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BunnyCare — приют для кроликов по всей России!</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐰</text></svg>">
   <style>
     * {
       margin: 0;
@@ -177,13 +178,22 @@
     }
 
     .mobile-menu {
-      display: none;
-      flex-direction: column;
+      display: grid;
+      grid-template-rows: 0fr;
       gap: 4px;
+      padding: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: grid-template-rows 0.35s ease, opacity 0.3s ease, padding 0.3s ease;
+    }
+
+    .mobile-menu.open {
+      grid-template-rows: 1fr;
+      opacity: 1;
       padding: 12px 0 20px;
     }
 
-    .mobile-menu.open { display: flex; }
+    .mobile-menu > * { min-height: 0; }
 
     .mobile-menu a {
       padding: 12px 8px;
@@ -202,17 +212,6 @@
       background: linear-gradient(160deg, var(--lavender) 0%, var(--pink) 45%, var(--yellow) 100%);
       position: relative;
       overflow: hidden;
-    }
-
-    .hero::before {
-      content: '🐰';
-      position: absolute;
-      font-size: 22rem;
-      opacity: 0.08;
-      right: -40px;
-      top: -60px;
-      transform: rotate(-15deg);
-      pointer-events: none;
     }
 
     .hero-inner {
@@ -266,6 +265,13 @@
     .hero-image:hover {
       transform: scale(1.02) rotate(1deg);
       box-shadow: var(--shadow-hover);
+    }
+
+    .hero-image img,
+    .rabbit-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
     /* ----- Секции ----- */
@@ -323,6 +329,7 @@
       align-items: center;
       justify-content: center;
       font-size: 4rem;
+      overflow: hidden;
       transition: background var(--transition);
     }
 
@@ -409,7 +416,9 @@
     }
 
     .story-card {
-      background: linear-gradient(160deg, var(--yellow) 0%, var(--pink) 100%);
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3)),
+        linear-gradient(160deg, var(--yellow) 0%, var(--pink) 100%);
       border-radius: var(--radius);
       padding: 28px 24px;
       box-shadow: var(--shadow);
@@ -840,10 +849,10 @@
       <div class="hero-inner">
         <div class="hero-text">
           <h1>Подари <span class="accent">дом</span> тому, кто ждёт</h1>
-          <p>BunnyCare — приют для кроликов в Москве. Мы спасаем, лечим и находим любящие семьи для пушистых друзей. Каждый кролик заслуживает тепла и заботы.</p>
+          <p>BunnyCare — приют для кроликов по всей России. Мы спасаем, лечим и находим любящие семьи для пушистых друзей. Каждый кролик заслуживает тепла и заботы.</p>
           <a href="#rabbits" class="btn btn-primary">Взять кролика</a>
         </div>
-        <div class="hero-image">🐰</div>
+        <div class="hero-image"><img src="images/bunny.jpg" alt="Кролик из приюта BunnyCare ждёт своего хозяина" width="480" height="360"></div>
       </div>
     </div>
   </section>
@@ -855,42 +864,42 @@
 
       <div class="rabbit-grid">
         <article class="rabbit-card">
-          <div class="rabbit-avatar">🐇</div>
+          <div class="rabbit-avatar"><img src="images/bunny3.jpg" alt="Снежок — пушистый кролик из приюта" width="400" height="400" loading="lazy"></div>
           <h3>Снежок</h3>
           <p>Спасён с улицы зимой. Ласковый, любит сидеть на руках и грызть морковку.</p>
           <button class="btn btn-outline btn-small">Хочу домой</button>
         </article>
 
         <article class="rabbit-card">
-          <div class="rabbit-avatar">🐰</div>
+          <div class="rabbit-avatar"><img src="images/Bunny4.jpg" alt="Пушок — пушистый кролик из приюта" width="400" height="400" loading="lazy"></div>
           <h3>Пушок</h3>
           <p>Найден в коробке у метро. Общительный, дружит с кошками и детьми.</p>
           <button class="btn btn-outline btn-small">Хочу домой</button>
         </article>
 
         <article class="rabbit-card">
-          <div class="rabbit-avatar">🐇</div>
+          <div class="rabbit-avatar"><img src="images/bunny5.jpg" alt="Клёпа — пушистая крольчиха из приюта" width="400" height="400" loading="lazy"></div>
           <h3>Клёпа</h3>
           <p>Отказник из семьи. Немного застенчива, но очень нежная и умная девочка.</p>
           <button class="btn btn-outline btn-small">Хочу домой</button>
         </article>
 
         <article class="rabbit-card">
-          <div class="rabbit-avatar">🐰</div>
+          <div class="rabbit-avatar"><img src="images/bunny6.jpg" alt="Барсик — пушистый кролик из приюта" width="400" height="400" loading="lazy"></div>
           <h3>Барсик</h3>
           <p>Спасён волонтёрами из заброшенного дома. Активный, любит исследовать всё вокруг.</p>
           <button class="btn btn-outline btn-small">Хочу домой</button>
         </article>
 
         <article class="rabbit-card">
-          <div class="rabbit-avatar">🐇</div>
+          <div class="rabbit-avatar"><img src="images/bunny7.jpg" alt="Мила — пушистая крольчиха из приюта" width="400" height="400" loading="lazy"></div>
           <h3>Мила</h3>
           <p>Приехала из другого приюта. Спокойная, ласковая, обожает, когда её гладят.</p>
           <button class="btn btn-outline btn-small">Хочу домой</button>
         </article>
 
         <article class="rabbit-card">
-          <div class="rabbit-avatar">🐰</div>
+          <div class="rabbit-avatar"><img src="images/bunny8.jpg" alt="Тимка — пушистый кролик из приюта" width="400" height="400" loading="lazy"></div>
           <h3>Тимка</h3>
           <p>Малыш, родившийся в приюте. Любопытный и очень игривый, ищет активную семью.</p>
           <button class="btn btn-outline btn-small">Хочу домой</button>
@@ -974,7 +983,7 @@
   <section class="contacts" id="contacts">
     <div class="container">
       <h2 class="section-title">Контакты</h2>
-      <p class="section-subtitle">Приезжайте в гости, чтобы познакомиться с кроликами и выбрать нового друга.</p>
+      <p class="section-subtitle">Свяжитесь с нами — познакомим с кроликами онлайн и поможем выбрать нового друга в вашем городе.</p>
 
       <div class="contacts-inner">
         <div class="contact-info">
@@ -982,7 +991,7 @@
 
           <div class="contact-item">
             <span class="icon">📍</span>
-            <p><strong>Адрес</strong>г. Москва, ул. Заботливая, д. 12, стр. 3</p>
+            <p><strong>Адрес</strong>Центр приюта — г. Москва, ул. Заботливая, д. 12<br>Пристраиваем кроликов по всей России</p>
           </div>
 
           <div class="contact-item">
@@ -1002,8 +1011,8 @@
         </div>
 
         <div class="map-block">
-          <span class="pin">📍</span>
-          <p>Мы находимся здесь<br>г. Москва, ул. Заботливая, 12</p>
+          <span class="pin">🗺️</span>
+          <p>Работаем по всей России<br>Кролики находят дома в Москве, Санкт-Петербурге, Казани и других городах</p>
         </div>
       </div>
     </div>
