@@ -7,25 +7,22 @@
   <g clip-path="url(#clip)">
     <rect width="100" height="100" fill="#e8dcf5"/>
     <!-- платье / плечи -->
-    <path d="M13 100 C13 74 28 59 50 59 C72 59 87 74 87 100 Z" fill="#b39ddb"/>
+    <path d="M16 100 C16 76 30 62 50 62 C70 62 84 76 84 100 Z" fill="#b39ddb"/>
     <!-- шея -->
     <rect x="43" y="46" width="14" height="18" rx="7" fill="#efb98c"/>
-    <!-- волосы (задний слой) -->
-    <circle cx="50" cy="34" r="25" fill="#4a2f23"/>
     <!-- лицо -->
-    <circle cx="50" cy="42" r="19" fill="#f6d3b0"/>
-    <!-- пряди по бокам -->
-    <path d="M27 40 C25 58 30 70 38 75 L42 60 C35 58 32 50 33 42 Z" fill="#4a2f23"/>
-    <path d="M73 40 C75 58 70 70 62 75 L58 60 C65 58 68 50 67 42 Z" fill="#4a2f23"/>
-    <!-- чёлка -->
-    <path d="M31 38 C31 26 40 19 50 19 C60 19 69 26 69 38 C69 30 60 25 50 25 C40 25 31 30 31 38 Z" fill="#5a3a2a"/>
+    <ellipse cx="50" cy="43" rx="18" ry="20" fill="#f6d3b0"/>
+    <!-- причёска-каре: верх + боковые пряди -->
+    <path d="M29 40 C29 18 40 10 50 10 C60 10 71 18 71 40 Z" fill="#4a2f23"/>
+    <rect x="28" y="32" width="7" height="32" rx="3.5" fill="#4a2f23"/>
+    <rect x="65" y="32" width="7" height="32" rx="3.5" fill="#4a2f23"/>
     <!-- глаза -->
-    <circle cx="42" cy="44" r="2.2" fill="#3d2e4d"/>
-    <circle cx="58" cy="44" r="2.2" fill="#3d2e4d"/>
+    <circle cx="43" cy="45" r="2.2" fill="#3d2e4d"/>
+    <circle cx="57" cy="45" r="2.2" fill="#3d2e4d"/>
     <!-- улыбка -->
-    <path d="M44 51 Q50 56 56 51" stroke="#c2756a" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M45 52 Q50 56 55 52" stroke="#c2756a" stroke-width="2" fill="none" stroke-linecap="round"/>
     <!-- румянец -->
-    <ellipse cx="37" cy="48" rx="4" ry="2.6" fill="#f5b8d8" opacity="0.8"/>
-    <ellipse cx="63" cy="48" rx="4" ry="2.6" fill="#f5b8d8" opacity="0.8"/>
+    <ellipse cx="40" cy="48" rx="3.4" ry="2.4" fill="#f5b8d8" opacity="0.8"/>
+    <ellipse cx="60" cy="48" rx="3.4" ry="2.4" fill="#f5b8d8" opacity="0.8"/>
   </g>
 </svg>

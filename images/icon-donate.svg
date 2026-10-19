@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Монета доната">
+  <!-- монета -->
+  <circle cx="32" cy="32" r="19" fill="#ffe9a8" stroke="#b39ddb" stroke-width="3"/>
+  <circle cx="32" cy="32" r="12" fill="none" stroke="#f5b8d8" stroke-width="2"/>
+  <!-- сердце внутри монеты -->
+  <path d="M32 38 C28.5 34.6 24 36.8 24 40.5 C24 44 28.5 47 32 49.5 C35.5 47 40 44 40 40.5 C40 36.8 35.5 34.6 32 38 Z" fill="#f5b8d8"/>
+</svg>
