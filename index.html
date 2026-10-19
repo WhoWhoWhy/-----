@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BunnyCare — приют для кроликов по всей России!</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐰</text></svg>">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
   <style>
     * {
       margin: 0;
@@ -24,7 +25,7 @@
       --cream: #fffaf0;          /* кремовый фон */
       --white: #ffffff;
       --text: #3d2e4d;           /* тёмно-фиолетовый для текста */
-      --text-light: #7a6a8a;
+      --text-light: #6b5b7d;  /* приглушённый фиолетовый — контраст ≥ 4.5:1 на лаванде, розовом и белом */
       --shadow: 0 10px 30px rgba(150, 120, 180, 0.12);
       --shadow-hover: 0 18px 40px rgba(150, 120, 180, 0.22);
       --radius: 18px;
@@ -197,7 +198,7 @@
 
     .mobile-menu a {
       padding: 12px 8px;
-      border-radius: 12px;
+      border-radius: var(--radius);
       font-weight: 500;
       transition: background var(--transition);
     }
@@ -208,7 +209,8 @@
 
     /* ----- Hero ----- */
     .hero {
-      padding: 60px 0 70px;
+      /* единый вертикальный ритм со всеми секциями: 72px 0 */
+      padding: 72px 0;
       background: linear-gradient(160deg, var(--lavender) 0%, var(--pink) 45%, var(--yellow) 100%);
       position: relative;
       overflow: hidden;
@@ -275,7 +277,7 @@
     }
 
     /* ----- Секции ----- */
-    section { padding: 64px 0; }
+    section { padding: 72px 0; }
 
     .section-title {
       text-align: center;
@@ -323,7 +325,7 @@
     .rabbit-avatar {
       width: 100%;
       aspect-ratio: 1 / 1;
-      border-radius: 14px;
+      border-radius: var(--radius);
       background: linear-gradient(135deg, var(--lavender), var(--pink));
       display: flex;
       align-items: center;
@@ -449,7 +451,14 @@
       justify-content: center;
       font-size: 1.6rem;
       flex-shrink: 0;
+      overflow: hidden;
       box-shadow: 0 4px 12px rgba(150, 120, 180, 0.15);
+    }
+
+    .story-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
     .story-author strong {
@@ -523,29 +532,26 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 12px;
+      gap: 18px;
       text-align: center;
-      padding: 30px;
-      background-image:
-        linear-gradient(rgba(232, 220, 245, 0.55), rgba(255, 246, 213, 0.55)),
-        repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(179, 157, 219, 0.25) 40px),
-        repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(245, 184, 216, 0.25) 40px);
-      background-size: cover;
+      padding: 24px 24px 30px;
     }
 
-    .map-block .pin {
-      font-size: 3rem;
-      animation: bounce 2s infinite;
-    }
-
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
+    .map-embed {
+      width: 100%;
+      max-width: 640px;
+      height: 300px;
+      border-radius: var(--radius);
+      box-shadow: 0 6px 18px rgba(150, 120, 180, 0.14);
+      overflow: hidden;
+      background: var(--yellow);
+      isolation: isolate; /* чтобы контролы Leaflet не перекрывали шапку и модальное окно */
     }
 
     .map-block p {
       color: var(--text-light);
       font-weight: 500;
+      max-width: 540px;
     }
 
     /* ----- Footer ----- */
@@ -613,7 +619,7 @@
       background: var(--purple);
       color: #ffffff;
       padding: 10px 18px;
-      border-radius: 0 0 12px 12px;
+      border-radius: 0 0 var(--radius) var(--radius);
       font-weight: 600;
       transition: top 0.2s ease;
     }
@@ -679,7 +685,7 @@
       width: 38px;
       height: 38px;
       border: none;
-      border-radius: 50%;
+      border-radius: var(--radius);  /* 18px на 38px-кнопке ≈ круг без «лишнего» значения */
       background: var(--lavender);
       color: var(--text);
       font-size: 1.05rem;
@@ -702,7 +708,7 @@
       background: var(--cream);
       border: 1px solid var(--lavender-dark);
       border-left: 4px solid var(--purple);
-      border-radius: 14px;
+      border-radius: var(--radius);
       padding: 16px 18px;
       margin-bottom: 14px;
     }
@@ -735,7 +741,7 @@
       color: var(--text);
       line-height: 1.5;
       background: var(--yellow);
-      border-radius: 12px;
+      border-radius: var(--radius);
       padding: 12px 14px;
       margin: 18px 0 20px;
     }
@@ -771,7 +777,7 @@
       .burger { display: none; }
       .mobile-menu { display: none !important; }
 
-      .hero { padding: 90px 0 100px; }
+      /* .hero наследует общий ритм секций: section { padding: 72px 0 } */
 
       .hero-inner {
         flex-direction: row;
@@ -867,42 +873,42 @@
           <div class="rabbit-avatar"><img src="images/bunny3.jpg" alt="Снежок — пушистый кролик из приюта" width="400" height="400" loading="lazy"></div>
           <h3>Снежок</h3>
           <p>Спасён с улицы зимой. Ласковый, любит сидеть на руках и грызть морковку.</p>
-          <button class="btn btn-outline btn-small">Хочу домой</button>
+          <button class="btn btn-primary btn-small">Хочу домой</button>
         </article>
 
         <article class="rabbit-card">
           <div class="rabbit-avatar"><img src="images/Bunny4.jpg" alt="Пушок — пушистый кролик из приюта" width="400" height="400" loading="lazy"></div>
           <h3>Пушок</h3>
           <p>Найден в коробке у метро. Общительный, дружит с кошками и детьми.</p>
-          <button class="btn btn-outline btn-small">Хочу домой</button>
+          <button class="btn btn-primary btn-small">Хочу домой</button>
         </article>
 
         <article class="rabbit-card">
           <div class="rabbit-avatar"><img src="images/bunny5.jpg" alt="Клёпа — пушистая крольчиха из приюта" width="400" height="400" loading="lazy"></div>
           <h3>Клёпа</h3>
           <p>Отказник из семьи. Немного застенчива, но очень нежная и умная девочка.</p>
-          <button class="btn btn-outline btn-small">Хочу домой</button>
+          <button class="btn btn-primary btn-small">Хочу домой</button>
         </article>
 
         <article class="rabbit-card">
           <div class="rabbit-avatar"><img src="images/bunny6.jpg" alt="Барсик — пушистый кролик из приюта" width="400" height="400" loading="lazy"></div>
           <h3>Барсик</h3>
           <p>Спасён волонтёрами из заброшенного дома. Активный, любит исследовать всё вокруг.</p>
-          <button class="btn btn-outline btn-small">Хочу домой</button>
+          <button class="btn btn-primary btn-small">Хочу домой</button>
         </article>
 
         <article class="rabbit-card">
           <div class="rabbit-avatar"><img src="images/bunny7.jpg" alt="Мила — пушистая крольчиха из приюта" width="400" height="400" loading="lazy"></div>
           <h3>Мила</h3>
           <p>Приехала из другого приюта. Спокойная, ласковая, обожает, когда её гладят.</p>
-          <button class="btn btn-outline btn-small">Хочу домой</button>
+          <button class="btn btn-primary btn-small">Хочу домой</button>
         </article>
 
         <article class="rabbit-card">
           <div class="rabbit-avatar"><img src="images/bunny8.jpg" alt="Тимка — пушистый кролик из приюта" width="400" height="400" loading="lazy"></div>
           <h3>Тимка</h3>
           <p>Малыш, родившийся в приюте. Любопытный и очень игривый, ищет активную семью.</p>
-          <button class="btn btn-outline btn-small">Хочу домой</button>
+          <button class="btn btn-primary btn-small">Хочу домой</button>
         </article>
       </div>
     </div>
@@ -925,7 +931,7 @@
           <span class="help-icon">🤝</span>
           <h3>Стать волонтёром</h3>
           <p>Помогай с уходом, выгулом, фотосессиями и поиском новых хозяев для подопечных.</p>
-          <button class="btn btn-outline btn-small">Присоединиться</button>
+          <button class="btn btn-primary btn-small">Присоединиться</button>
         </div>
 
         <div class="help-card">
@@ -946,7 +952,7 @@
       <div class="stories-grid">
         <article class="story-card">
           <div class="story-author">
-            <div class="story-photo">👩</div>
+            <div class="story-photo"><img src="images/avatar-anna.svg" alt="Анна — хозяйка Снежка" width="56" height="56"></div>
             <div>
               <strong>Анна</strong>
               <span>взяла Снежка</span>
@@ -957,7 +963,7 @@
 
         <article class="story-card">
           <div class="story-author">
-            <div class="story-photo">👨</div>
+            <div class="story-photo"><img src="images/avatar-dmitriy.svg" alt="Дмитрий — хозяин Пушка" width="56" height="56"></div>
             <div>
               <strong>Дмитрий</strong>
               <span>взял Пушка</span>
@@ -968,7 +974,7 @@
 
         <article class="story-card">
           <div class="story-author">
-            <div class="story-photo">👩‍🦰</div>
+            <div class="story-photo"><img src="images/avatar-ekaterina.svg" alt="Екатерина — хозяйка Милы" width="56" height="56"></div>
             <div>
               <strong>Екатерина</strong>
               <span>взяла Милу</span>
@@ -1011,7 +1017,7 @@
         </div>
 
         <div class="map-block">
-          <span class="pin">🗺️</span>
+          <div id="shelterMap" class="map-embed" role="img" aria-label="Карта: центр приюта BunnyCare находится в Москве"></div>
           <p>Работаем по всей России<br>Кролики находят дома в Москве, Санкт-Петербурге, Казани и других городах</p>
         </div>
       </div>
@@ -1151,6 +1157,41 @@
           first.focus();
         }
       });
+    })();
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    (function () {
+      'use strict';
+
+      var mapEl = document.getElementById('shelterMap');
+      if (!mapEl || typeof L === 'undefined') {
+        return;
+      }
+
+      var map = L.map('shelterMap', {
+        scrollWheelZoom: false,
+        center: [55.7558, 37.6173],
+        zoom: 10
+      });
+
+      // убираем префикс «Leaflet» (и лишние символы) из угла карты,
+      // оставляем только обязательную нейтральную подпись © OpenStreetMap
+      map.attributionControl.setPrefix(false);
+
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+        attribution: '&copy; OpenStreetMap contributors'
+      }).addTo(map);
+
+      L.circleMarker([55.7558, 37.6173], {
+        radius: 11,
+        color: '#ffffff',
+        weight: 3,
+        fillColor: '#f5b8d8',
+        fillOpacity: 1
+      }).addTo(map).bindPopup('<strong>BunnyCare</strong><br>главный приют в Москве').openPopup();
     })();
   </script>
 

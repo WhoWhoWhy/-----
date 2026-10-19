@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="Дмитрий">
+  <defs>
+    <clipPath id="clip">
+      <circle cx="50" cy="50" r="50"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#clip)">
+    <rect width="100" height="100" fill="#fff6d5"/>
+    <!-- рубашка / плечи -->
+    <path d="M14 100 C14 76 29 61 50 61 C71 61 86 76 86 100 Z" fill="#c9b3e8"/>
+    <!-- шея -->
+    <rect x="44" y="48" width="12" height="16" rx="6" fill="#efb98c"/>
+    <!-- лицо -->
+    <circle cx="50" cy="43" r="18" fill="#f2cc9d"/>
+    <!-- короткие волосы -->
+    <path d="M32 40 C32 16 41 9 50 9 C59 9 68 16 68 40 C68 28 63 21 57 17 L50 14 L43 17 C37 21 32 28 32 40 Z" fill="#3d2e4d"/>
+    <!-- глаза -->
+    <circle cx="43" cy="45" r="2.2" fill="#3d2e4d"/>
+    <circle cx="57" cy="45" r="2.2" fill="#3d2e4d"/>
+    <!-- улыбка -->
+    <path d="M45 52 Q50 56 55 52" stroke="#c2756a" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <!-- румянец -->
+    <ellipse cx="38" cy="49" rx="3.6" ry="2.4" fill="#f5b8d8" opacity="0.75"/>
+    <ellipse cx="62" cy="49" rx="3.6" ry="2.4" fill="#f5b8d8" opacity="0.75"/>
+  </g>
+</svg>
