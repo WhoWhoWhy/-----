@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BunnyCare — приют для кроликов в Москве</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      /* Пастельная фиолетово-розово-жёлтая палитра */
+      --lavender: #e8dcf5;       /* нежная лаванда */
+      --lavender-dark: #c9b3e8;  /* сиреневая */
+      --purple: #b39ddb;         /* пастельный фиолетовый */
+      --pink: #fce4f0;           /* нежно-розовый */
+      --pink-dark: #f5b8d8;      /* розовый */
+      --yellow: #fff6d5;         /* светло-жёлтый */
+      --yellow-dark: #ffe9a8;    /* жёлтый */
+      --cream: #fffaf0;          /* кремовый фон */
+      --white: #ffffff;
+      --text: #3d2e4d;           /* тёмно-фиолетовый для текста */
+      --text-light: #7a6a8a;
+      --shadow: 0 10px 30px rgba(150, 120, 180, 0.12);
+      --shadow-hover: 0 18px 40px rgba(150, 120, 180, 0.22);
+      --radius: 18px;
+      --transition: 0.3s ease;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img { max-width: 100%; display: block; }
+    a { text-decoration: none; color: inherit; }
+
+    .container {
+      width: 100%;
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* ----- Кнопки ----- */
+    .btn {
+      display: inline-block;
+      padding: 14px 28px;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 1rem;
+      border: none;
+      cursor: pointer;
+      transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
+      text-align: center;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--purple), var(--pink-dark));
+      color: #ffffff;
+      box-shadow: 0 6px 18px rgba(179, 157, 219, 0.5);
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #a487d1, #f0a0c8);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 26px rgba(179, 157, 219, 0.7);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--purple);
+      color: #4a3566;
+    }
+
+    .btn-outline:hover {
+      background: var(--lavender);
+      transform: translateY(-3px);
+    }
+
+    .btn-small {
+      padding: 10px 20px;
+      font-size: 0.9rem;
+    }
+
+    /* ----- Header ----- */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 250, 240, 0.85);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 2px 20px rgba(150, 120, 180, 0.08);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 0;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #4a3566;
+      letter-spacing: -0.5px;
+    }
+
+    .logo span {
+      background: linear-gradient(120deg, var(--purple), var(--pink-dark));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .nav-links {
+      display: none;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-weight: 500;
+      color: var(--text);
+      position: relative;
+      transition: color var(--transition);
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -4px;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--purple), var(--pink-dark));
+      transition: width var(--transition);
+    }
+
+    .nav-links a:hover {
+      color: #4a3566;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .nav-cta { display: none; }
+
+    .burger {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+    }
+
+    .burger span {
+      width: 26px;
+      height: 2.5px;
+      background: var(--text);
+      border-radius: 2px;
+      transition: var(--transition);
+    }
+
+    .mobile-menu {
+      display: none;
+      flex-direction: column;
+      gap: 4px;
+      padding: 12px 0 20px;
+    }
+
+    .mobile-menu.open { display: flex; }
+
+    .mobile-menu a {
+      padding: 12px 8px;
+      border-radius: 12px;
+      font-weight: 500;
+      transition: background var(--transition);
+    }
+
+    .mobile-menu a:hover { background: var(--lavender); }
+
+    .mobile-menu .btn { margin-top: 8px; }
+
+    /* ----- Hero ----- */
+    .hero {
+      padding: 60px 0 70px;
+      background: linear-gradient(160deg, var(--lavender) 0%, var(--pink) 45%, var(--yellow) 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '🐰';
+      position: absolute;
+      font-size: 22rem;
+      opacity: 0.08;
+      right: -40px;
+      top: -60px;
+      transform: rotate(-15deg);
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 36px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-text h1 {
+      font-size: 2.4rem;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      letter-spacing: -1px;
+      color: #4a3566;
+    }
+
+    .hero-text h1 .accent {
+      background: linear-gradient(120deg, var(--purple), var(--pink-dark));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-text p {
+      font-size: 1.1rem;
+      color: var(--text-light);
+      max-width: 520px;
+      margin: 0 auto 28px;
+    }
+
+    .hero-image {
+      width: 100%;
+      max-width: 480px;
+      aspect-ratio: 4 / 3;
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, var(--white), var(--yellow));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 7rem;
+      box-shadow: var(--shadow);
+      transition: transform var(--transition), box-shadow var(--transition);
+      overflow: hidden;
+      border: 3px solid var(--white);
+    }
+
+    .hero-image:hover {
+      transform: scale(1.02) rotate(1deg);
+      box-shadow: var(--shadow-hover);
+    }
+
+    /* ----- Секции ----- */
+    section { padding: 64px 0; }
+
+    .section-title {
+      text-align: center;
+      font-size: 1.9rem;
+      margin-bottom: 12px;
+      letter-spacing: -0.5px;
+      color: #4a3566;
+    }
+
+    .section-subtitle {
+      text-align: center;
+      color: var(--text-light);
+      max-width: 540px;
+      margin: 0 auto 44px;
+      font-size: 1.02rem;
+    }
+
+    /* ----- Подопечные ----- */
+    .rabbits { background: var(--white); }
+
+    .rabbit-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    .rabbit-card {
+      background: var(--cream);
+      border-radius: var(--radius);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      box-shadow: var(--shadow);
+      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+      border: 2px solid transparent;
+    }
+
+    .rabbit-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-hover);
+      border-color: var(--pink-dark);
+    }
+
+    .rabbit-avatar {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--lavender), var(--pink));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+      transition: background var(--transition);
+    }
+
+    .rabbit-card:nth-child(even) .rabbit-avatar {
+      background: linear-gradient(135deg, var(--yellow), var(--pink));
+    }
+
+    .rabbit-card:hover .rabbit-avatar {
+      background: linear-gradient(135deg, var(--pink-dark), var(--yellow-dark));
+    }
+
+    .rabbit-card h3 {
+      font-size: 1.2rem;
+      color: #4a3566;
+    }
+
+    .rabbit-card p {
+      color: var(--text-light);
+      font-size: 0.95rem;
+      flex-grow: 1;
+    }
+
+    .rabbit-card .btn { align-self: flex-start; }
+
+    /* ----- Как помочь ----- */
+    .help {
+      background: linear-gradient(180deg, var(--cream) 0%, var(--lavender) 100%);
+    }
+
+    .help-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    .help-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 32px 26px;
+      text-align: center;
+      box-shadow: var(--shadow);
+      transition: transform var(--transition), box-shadow var(--transition);
+      border-top: 4px solid var(--purple);
+    }
+
+    .help-card:nth-child(2) { border-top-color: var(--pink-dark); }
+    .help-card:nth-child(3) { border-top-color: var(--yellow-dark); }
+
+    .help-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .help-icon {
+      font-size: 3rem;
+      margin-bottom: 16px;
+      display: inline-block;
+      transition: transform var(--transition);
+    }
+
+    .help-card:hover .help-icon {
+      transform: scale(1.15) rotate(-6deg);
+    }
+
+    .help-card h3 {
+      margin-bottom: 10px;
+      font-size: 1.2rem;
+      color: #4a3566;
+    }
+
+    .help-card p {
+      color: var(--text-light);
+      font-size: 0.95rem;
+      margin-bottom: 18px;
+    }
+
+    /* ----- Истории успеха ----- */
+    .stories { background: var(--white); }
+
+    .stories-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    .story-card {
+      background: linear-gradient(160deg, var(--yellow) 0%, var(--pink) 100%);
+      border-radius: var(--radius);
+      padding: 28px 24px;
+      box-shadow: var(--shadow);
+      transition: transform var(--transition), box-shadow var(--transition);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .story-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .story-author {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .story-photo {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(150, 120, 180, 0.15);
+    }
+
+    .story-author strong {
+      display: block;
+      font-size: 1rem;
+      color: #4a3566;
+    }
+
+    .story-author span {
+      color: var(--text-light);
+      font-size: 0.85rem;
+    }
+
+    .story-text {
+      color: var(--text);
+      font-size: 0.97rem;
+      font-style: italic;
+    }
+
+    /* ----- Контакты ----- */
+    .contacts {
+      background: linear-gradient(180deg, var(--lavender) 0%, var(--cream) 100%);
+    }
+
+    .contacts-inner {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+
+    .contact-info {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 30px 26px;
+      box-shadow: var(--shadow);
+      border-left: 4px solid var(--pink-dark);
+    }
+
+    .contact-info h3 {
+      margin-bottom: 20px;
+      font-size: 1.25rem;
+      color: #4a3566;
+    }
+
+    .contact-item {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 18px;
+      align-items: flex-start;
+    }
+
+    .contact-item .icon { font-size: 1.4rem; line-height: 1; }
+
+    .contact-item p {
+      color: var(--text-light);
+      font-size: 0.95rem;
+    }
+
+    .contact-item strong {
+      color: var(--text);
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .map-block {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      min-height: 320px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      text-align: center;
+      padding: 30px;
+      background-image:
+        linear-gradient(rgba(232, 220, 245, 0.55), rgba(255, 246, 213, 0.55)),
+        repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(179, 157, 219, 0.25) 40px),
+        repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(245, 184, 216, 0.25) 40px);
+      background-size: cover;
+    }
+
+    .map-block .pin {
+      font-size: 3rem;
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .map-block p {
+      color: var(--text-light);
+      font-weight: 500;
+    }
+
+    /* ----- Footer ----- */
+    footer {
+      background: #3d2e4d;
+      color: #e8dcf5;
+      padding: 40px 0 28px;
+    }
+
+    .footer-inner {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      align-items: center;
+      text-align: center;
+    }
+
+    .footer-logo {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--white);
+    }
+
+    .footer-logo span {
+      background: linear-gradient(120deg, var(--purple), var(--yellow-dark));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .socials { display: flex; gap: 18px; }
+
+    .socials a {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      transition: background var(--transition), transform var(--transition);
+    }
+
+    .socials a:hover {
+      background: var(--pink-dark);
+      transform: translateY(-4px);
+    }
+
+    .copyright {
+      font-size: 0.85rem;
+      opacity: 0.7;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 20px;
+      width: 100%;
+      text-align: center;
+    }
+
+    /* ----- Доступность: skip-link ----- */
+    .skip-link {
+      position: absolute;
+      left: 16px;
+      top: -48px;
+      z-index: 300;
+      background: var(--purple);
+      color: #ffffff;
+      padding: 10px 18px;
+      border-radius: 0 0 12px 12px;
+      font-weight: 600;
+      transition: top 0.2s ease;
+    }
+
+    .skip-link:focus {
+      top: 0;
+    }
+
+    /* ----- Модальное окно «Помочь» ----- */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(61, 46, 77, 0.55);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal {
+      position: relative;
+      width: 100%;
+      max-width: 480px;
+      max-height: 90vh;
+      overflow-y: auto;
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 34px 28px 28px;
+      box-shadow: var(--shadow-hover);
+      transform: translateY(24px) scale(0.97);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-overlay.open .modal {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal h3 {
+      font-size: 1.4rem;
+      color: #4a3566;
+      margin-bottom: 8px;
+    }
+
+    .modal-subtitle {
+      color: var(--text-light);
+      font-size: 0.95rem;
+      margin-bottom: 22px;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 38px;
+      height: 38px;
+      border: none;
+      border-radius: 50%;
+      background: var(--lavender);
+      color: var(--text);
+      font-size: 1.05rem;
+      line-height: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background var(--transition), color var(--transition), transform var(--transition);
+    }
+
+    .modal-close:hover,
+    .modal-close:focus-visible {
+      background: var(--pink-dark);
+      color: #ffffff;
+      transform: rotate(90deg);
+    }
+
+    .donate-card {
+      background: var(--cream);
+      border: 1px solid var(--lavender-dark);
+      border-left: 4px solid var(--purple);
+      border-radius: 14px;
+      padding: 16px 18px;
+      margin-bottom: 14px;
+    }
+
+    .donate-card strong {
+      display: block;
+      color: var(--text);
+      font-size: 0.95rem;
+      margin-bottom: 6px;
+    }
+
+    .donate-number {
+      display: block;
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #4a3566;
+      margin-bottom: 4px;
+      user-select: all;
+    }
+
+    .donate-hint {
+      display: block;
+      color: var(--text-light);
+      font-size: 0.85rem;
+    }
+
+    .modal-note {
+      font-size: 0.85rem;
+      color: var(--text);
+      line-height: 1.5;
+      background: var(--yellow);
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin: 18px 0 20px;
+    }
+
+    .btn-full {
+      width: 100%;
+    }
+
+    .mobile-menu .btn {
+      width: 100%;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+      .modal,
+      .modal-overlay {
+        transition: none;
+      }
+    }
+
+    /* ----- Адаптив ----- */
+    @media (min-width: 640px) {
+      .rabbit-grid { grid-template-columns: repeat(2, 1fr); }
+      .help-grid { grid-template-columns: repeat(2, 1fr); }
+      .stories-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (min-width: 900px) {
+      .nav-links { display: flex; }
+      .nav-cta { display: inline-block; }
+      .burger { display: none; }
+      .mobile-menu { display: none !important; }
+
+      .hero { padding: 90px 0 100px; }
+
+      .hero-inner {
+        flex-direction: row;
+        text-align: left;
+        justify-content: space-between;
+        gap: 50px;
+      }
+
+      .hero-text { flex: 1; max-width: 540px; }
+      .hero-text h1 { font-size: 3.2rem; }
+      .hero-text p { margin-left: 0; font-size: 1.18rem; }
+
+      .hero-image {
+        flex-shrink: 0;
+        width: 460px;
+        font-size: 9rem;
+      }
+
+      .rabbit-grid { grid-template-columns: repeat(3, 1fr); }
+      .help-grid { grid-template-columns: repeat(3, 1fr); }
+      .stories-grid { grid-template-columns: repeat(3, 1fr); }
+      .contacts-inner { grid-template-columns: 1fr 1.2fr; }
+
+      .footer-inner {
+        flex-direction: row;
+        justify-content: space-between;
+        text-align: left;
+      }
+
+      .copyright {
+        width: auto;
+        border-top: none;
+        padding-top: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <a href="#main" class="skip-link">Перейти к содержимому</a>
+
+  <header>
+    <div class="container">
+      <nav class="nav">
+        <a href="#" class="logo">Bunny<span>Care</span></a>
+
+        <ul class="nav-links">
+          <li><a href="#about">О нас</a></li>
+          <li><a href="#rabbits">Подопечные</a></li>
+          <li><a href="#help">Как помочь</a></li>
+          <li><a href="#contacts">Контакты</a></li>
+        </ul>
+
+        <button type="button" class="btn btn-primary btn-small nav-cta js-open-donate">Помочь</button>
+
+        <button class="burger" aria-label="Открыть меню" onclick="document.getElementById('mobileMenu').classList.toggle('open')">
+          <span></span><span></span><span></span>
+        </button>
+      </nav>
+
+      <div class="mobile-menu" id="mobileMenu">
+        <a href="#about" onclick="document.getElementById('mobileMenu').classList.remove('open')">О нас</a>
+        <a href="#rabbits" onclick="document.getElementById('mobileMenu').classList.remove('open')">Подопечные</a>
+        <a href="#help" onclick="document.getElementById('mobileMenu').classList.remove('open')">Как помочь</a>
+        <a href="#contacts" onclick="document.getElementById('mobileMenu').classList.remove('open')">Контакты</a>
+        <button type="button" class="btn btn-primary js-open-donate">Помочь</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+
+  <section class="hero" id="about">
+    <div class="container">
+      <div class="hero-inner">
+        <div class="hero-text">
+          <h1>Подари <span class="accent">дом</span> тому, кто ждёт</h1>
+          <p>BunnyCare — приют для кроликов в Москве. Мы спасаем, лечим и находим любящие семьи для пушистых друзей. Каждый кролик заслуживает тепла и заботы.</p>
+          <a href="#rabbits" class="btn btn-primary">Взять кролика</a>
+        </div>
+        <div class="hero-image">🐰</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="rabbits" id="rabbits">
+    <div class="container">
+      <h2 class="section-title">Наши подопечные</h2>
+      <p class="section-subtitle">Эти кролики уже готовы к переезду в новый дом. Познакомься с ними — возможно, кто-то ждёт именно тебя.</p>
+
+      <div class="rabbit-grid">
+        <article class="rabbit-card">
+          <div class="rabbit-avatar">🐇</div>
+          <h3>Снежок</h3>
+          <p>Спасён с улицы зимой. Ласковый, любит сидеть на руках и грызть морковку.</p>
+          <button class="btn btn-outline btn-small">Хочу домой</button>
+        </article>
+
+        <article class="rabbit-card">
+          <div class="rabbit-avatar">🐰</div>
+          <h3>Пушок</h3>
+          <p>Найден в коробке у метро. Общительный, дружит с кошками и детьми.</p>
+          <button class="btn btn-outline btn-small">Хочу домой</button>
+        </article>
+
+        <article class="rabbit-card">
+          <div class="rabbit-avatar">🐇</div>
+          <h3>Клёпа</h3>
+          <p>Отказник из семьи. Немного застенчива, но очень нежная и умная девочка.</p>
+          <button class="btn btn-outline btn-small">Хочу домой</button>
+        </article>
+
+        <article class="rabbit-card">
+          <div class="rabbit-avatar">🐰</div>
+          <h3>Барсик</h3>
+          <p>Спасён волонтёрами из заброшенного дома. Активный, любит исследовать всё вокруг.</p>
+          <button class="btn btn-outline btn-small">Хочу домой</button>
+        </article>
+
+        <article class="rabbit-card">
+          <div class="rabbit-avatar">🐇</div>
+          <h3>Мила</h3>
+          <p>Приехала из другого приюта. Спокойная, ласковая, обожает, когда её гладят.</p>
+          <button class="btn btn-outline btn-small">Хочу домой</button>
+        </article>
+
+        <article class="rabbit-card">
+          <div class="rabbit-avatar">🐰</div>
+          <h3>Тимка</h3>
+          <p>Малыш, родившийся в приюте. Любопытный и очень игривый, ищет активную семью.</p>
+          <button class="btn btn-outline btn-small">Хочу домой</button>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="help" id="help">
+    <div class="container">
+      <h2 class="section-title">Как помочь</h2>
+      <p class="section-subtitle">Есть несколько способов сделать жизнь кроликов лучше. Выбери тот, что подходит именно тебе.</p>
+
+      <div class="help-grid">
+        <div class="help-card">
+          <span class="help-icon">🏡</span>
+          <h3>Взять домой</h3>
+          <p>Подари кролику семью и заботу. Мы поможем с адаптацией и подскажем по уходу.</p>
+          <a href="#rabbits" class="btn btn-primary btn-small">Выбрать кролика</a>
+        </div>
+
+        <div class="help-card">
+          <span class="help-icon">🤝</span>
+          <h3>Стать волонтёром</h3>
+          <p>Помогай с уходом, выгулом, фотосессиями и поиском новых хозяев для подопечных.</p>
+          <button class="btn btn-outline btn-small">Присоединиться</button>
+        </div>
+
+        <div class="help-card">
+          <span class="help-icon">💜</span>
+          <h3>Донат</h3>
+          <p>Любая сумма идёт на корм, лекарства, сено и обустройство тёплых вольеров.</p>
+          <button class="btn btn-primary btn-small">Поддержать</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="stories">
+    <div class="container">
+      <h2 class="section-title">Истории успеха</h2>
+      <p class="section-subtitle">Люди, которые уже забрали кролика из BunnyCare, делятся своими впечатлениями.</p>
+
+      <div class="stories-grid">
+        <article class="story-card">
+          <div class="story-author">
+            <div class="story-photo">👩</div>
+            <div>
+              <strong>Анна</strong>
+              <span>взяла Снежка</span>
+            </div>
+          </div>
+          <p class="story-text">«Снежок стал настоящим членом семьи. Он встречает нас у двери и обожает сидеть на коленях. Спасибо BunnyCare за нашего пушистого друга!»</p>
+        </article>
+
+        <article class="story-card">
+          <div class="story-author">
+            <div class="story-photo">👨</div>
+            <div>
+              <strong>Дмитрий</strong>
+              <span>взял Пушка</span>
+            </div>
+          </div>
+          <p class="story-text">«Пушок быстро освоился и подружился с котом. Очень благодарен команде приюта за поддержку и подробные советы по уходу.»</p>
+        </article>
+
+        <article class="story-card">
+          <div class="story-author">
+            <div class="story-photo">👩‍🦰</div>
+            <div>
+              <strong>Екатерина</strong>
+              <span>взяла Милу</span>
+            </div>
+          </div>
+          <p class="story-text">«Мила — самое нежное существо на свете. Она помогла мне справиться со стрессом. Спасибо, что вы спасаете таких замечательных кроликов!»</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="contacts" id="contacts">
+    <div class="container">
+      <h2 class="section-title">Контакты</h2>
+      <p class="section-subtitle">Приезжайте в гости, чтобы познакомиться с кроликами и выбрать нового друга.</p>
+
+      <div class="contacts-inner">
+        <div class="contact-info">
+          <h3>Приют BunnyCare</h3>
+
+          <div class="contact-item">
+            <span class="icon">📍</span>
+            <p><strong>Адрес</strong>г. Москва, ул. Заботливая, д. 12, стр. 3</p>
+          </div>
+
+          <div class="contact-item">
+            <span class="icon">📞</span>
+            <p><strong>Телефон</strong>+7 (495) 123-45-67</p>
+          </div>
+
+          <div class="contact-item">
+            <span class="icon">🕒</span>
+            <p><strong>График посещений</strong>Пн–Сб: 10:00 – 19:00<br>Вс: 12:00 – 17:00</p>
+          </div>
+
+          <div class="contact-item">
+            <span class="icon">✉️</span>
+            <p><strong>Email</strong>hello@bunnycare.ru</p>
+          </div>
+        </div>
+
+        <div class="map-block">
+          <span class="pin">📍</span>
+          <p>Мы находимся здесь<br>г. Москва, ул. Заботливая, 12</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-logo">Bunny<span>Care</span></div>
+
+        <div class="socials">
+          <a href="#" aria-label="Telegram">✈️</a>
+          <a href="#" aria-label="VK">🅥</a>
+          <a href="#" aria-label="Instagram">📷</a>
+          <a href="#" aria-label="YouTube">▶️</a>
+        </div>
+
+        <p class="copyright">© 2025 BunnyCare. Все права защищены. Сделано с любовью к кроликам.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Модальное окно «Помочь» -->
+  <div class="modal-overlay" id="donateModal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="donateModalTitle" tabindex="-1">
+      <button type="button" class="modal-close" aria-label="Закрыть окно">✕</button>
+
+      <h3 id="donateModalTitle">Реквизиты для перевода</h3>
+      <p class="modal-subtitle">Любая сумма идёт на корм, лекарства, сено и обустройство тёплых вольеров. Выберите удобный способ:</p>
+
+      <div class="donate-card">
+        <strong><span aria-hidden="true">💳</span> Банковская карта</strong>
+        <span class="donate-number">2202 2010 1234 5678</span>
+        <span class="donate-hint">Сбербанк · получатель: BunnyCare</span>
+      </div>
+
+      <div class="donate-card">
+        <strong><span aria-hidden="true">📱</span> СБП — Система быстрых платежей</strong>
+        <span class="donate-number">+7 (495) 123-45-67</span>
+        <span class="donate-hint">Перевод по номеру телефона, без комиссии</span>
+      </div>
+
+      <div class="donate-card">
+        <strong><span aria-hidden="true">💜</span> ЮMoney / Т-Банк</strong>
+        <span class="donate-number">4100 1234 5678 9012</span>
+        <span class="donate-hint">Кошелёк для переводов из любого банка</span>
+      </div>
+
+      <p class="modal-note"><span aria-hidden="true">🙏</span> Спасибо за поддержку! Все средства направляются на корм, лечение и обустройство вольеров для подопечных приюта.</p>
+
+      <button type="button" class="btn btn-primary btn-full js-close-donate">Закрыть</button>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      'use strict';
+
+      var overlay = document.getElementById('donateModal');
+      var openButtons = document.querySelectorAll('.js-open-donate');
+      var closeButton = overlay.querySelector('.modal-close');
+      var closeSecondary = overlay.querySelector('.js-close-donate');
+      var lastFocused = null;
+
+      function openModal() {
+        lastFocused = document.activeElement;
+        overlay.classList.add('open');
+        overlay.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+        closeButton.focus();
+
+        // закрываем мобильное меню, если оно открыто
+        var menu = document.getElementById('mobileMenu');
+        if (menu) {
+          menu.classList.remove('open');
+        }
+      }
+
+      function closeModal() {
+        overlay.classList.remove('open');
+        overlay.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+        if (lastFocused && lastFocused.focus) {
+          lastFocused.focus();
+        }
+      }
+
+      openButtons.forEach(function (btn) {
+        btn.addEventListener('click', function (e) {
+          e.preventDefault();
+          openModal();
+        });
+      });
+
+      closeButton.addEventListener('click', closeModal);
+      closeSecondary.addEventListener('click', closeModal);
+
+      // клик по затемнённой подложке закрывает окно
+      overlay.addEventListener('click', function (e) {
+        if (e.target === overlay) {
+          closeModal();
+        }
+      });
+
+      // закрытие по клавише Escape
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && overlay.classList.contains('open')) {
+          closeModal();
+        }
+      });
+
+      // простой фокус-трап внутри модального окна
+      overlay.addEventListener('keydown', function (e) {
+        if (e.key !== 'Tab') {
+          return;
+        }
+        var focusables = overlay.querySelectorAll(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+        var list = Array.prototype.filter.call(focusables, function (el) {
+          return !el.disabled && el.offsetParent !== null;
+        });
+        if (list.length === 0) {
+          return;
+        }
+        var first = list[0];
+        var last = list[list.length - 1];
+
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>
